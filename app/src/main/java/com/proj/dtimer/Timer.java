@@ -16,15 +16,16 @@ public class Timer extends AppCompatActivity implements View.OnClickListener {
     TextView chrono;
     Button startTime;
     int seconds = 0;
+    boolean timerOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timer);
-        circleBar = findViewById(R.id.circleBar);
+//        circleBar = findViewById(R.id.circleBar);
         chrono = findViewById(R.id.chrono);
-        circleBar.setProgress(100);
-        circleBar.setMax(100);
+//        circleBar.setProgress(100);
+//        circleBar.setMax(100);
         startTime = findViewById(R.id.startButton);
 //        start(1);
 
@@ -36,52 +37,26 @@ public class Timer extends AppCompatActivity implements View.OnClickListener {
 
 
     public void startTimer() {
+        timerOn = true;
         countDownTimer = new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
                 seconds = Math.toIntExact(millisUntilFinished) / 1000;
-                chrono.setText("Secondes Restantes: " + seconds);
-                circleBar.setProgress(seconds);
+                chrono.setText(seconds + "");
+//                circleBar.setProgress(100/seconds);
+
             }
             public void onFinish() {
                 chrono.setText("FINIS !!");
+                timerOn = false;
             }
         };
         countDownTimer.start();
     }
 
-//    public final int start(final int minutes){
-//
-//        countDownTimer = new CountDownTimer(60 * minutes * 1000, 1000){
-//            @Override
-//            public void onTick(long millisUntilFinished){
-//                long seconds = millisUntilFinished / 6000;
-//                circleBar.setProgress((int)seconds);
-//                chrono.setText(R.string.secRemain + String.valueOf(seconds));
-//
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//                chrono.setText("Done!");
-////                if(chrono.getText().equals("00:00")){
-////                    chrono.setText(R.string.stop);
-////                }
-////                else{
-////                    chrono.setText(R.string.minutes);
-////                    circleBar.setProgress(60 * mins);
-////                }
-//            }
-//        };
-//
-//
-//    return minutes;
-//    }
-
-
     @Override
     public void onClick(View view){
-
-        startTimer();
-
+            startTimer();
     }
+
+
 }
