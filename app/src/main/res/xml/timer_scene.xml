@@ -55,7 +55,7 @@
     <Transition
         app:constraintSetStart="@+id/start"
         app:constraintSetEnd="@+id/end"
-        motion:duration="2000">
+        app:duration="2000">
         <OnClick
             app:targetId="@+id/startButton" />
     </Transition>
