@@ -24,7 +24,10 @@
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#2C2B2B"
+        android:fontFamily="@font/roboto_bold"
         android:text="start"
+        android:textColor="@color/colorOrange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -34,14 +37,28 @@
         android:id="@+id/chrono"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:elevation="2dp"
         android:ems="2"
+        android:fontFamily="@font/roboto_bold"
+        android:text="30"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textSize="106sp"
         android:textColor="@color/colorOrange"
+        android:textSize="106sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/background_timer" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

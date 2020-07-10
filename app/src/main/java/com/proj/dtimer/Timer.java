@@ -39,8 +39,14 @@ public class Timer extends AppCompatActivity implements View.OnClickListener, Vi
 
 
 
-    //This function instance a timer, with 2 parameters in milliseconds
+    /* This function check if a timer already exist, cancel it and
+       instance a timer, with 2 parameters in milliseconds
+
+     */
     public void startTimer() {
+        if (countDownTimer != null){
+            countDownTimer.cancel();
+        }
         countDownTimer = new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
                 seconds = Math.toIntExact(millisUntilFinished) / 1000;
