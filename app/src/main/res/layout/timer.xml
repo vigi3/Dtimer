@@ -24,7 +24,7 @@
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#2C2B2B"
+        android:backgroundTint="@color/colorPrimary"
         android:fontFamily="@font/roboto_bold"
         android:text="start"
         android:textColor="@color/colorOrange"
@@ -60,5 +60,22 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/background_timer" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="2dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="DTimer"
+        app:titleTextColor="@color/colorOrange" />
+
+<!--    tools:layout_editor_absoluteX="1dp"-->
+<!--    tools:layout_editor_absoluteY="2dp"-->
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
