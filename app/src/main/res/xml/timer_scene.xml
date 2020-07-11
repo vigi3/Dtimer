@@ -16,7 +16,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="2"
-            android:textAlignment="center"            android:textAllCaps="true"
+            android:background="@drawable/circle"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
+            android:textAlignment="center"
             android:textSize="50sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -35,27 +38,24 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="0.509"
             app:layout_constraintHorizontal_bias="0.897" />
-
-
-        <Constraint android:id="@+id/chrono"
-            android:layout_width="144dp"
-            android:layout_height="115dp"
-            android:ems="2"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textSize="106sp"
+        <Constraint
+            app:layout_constraintVertical_bias="1.0"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.977"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.967"
-            app:layout_constraintHorizontal_bias="0.996" />
+            android:layout_width="wrap_content"
+            android:id="@+id/chrono" />
+
+
     </ConstraintSet>
 
     <Transition
         app:constraintSetStart="@+id/start"
         app:constraintSetEnd="@+id/end"
-        app:duration="2000">
+        app:duration="1000">
         <OnClick
             app:targetId="@+id/startButton" />
     </Transition>
