@@ -1,42 +1,38 @@
 package com.proj.dtimer;
 
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.ProgressBar;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.motion.widget.MotionLayout;
 
 public class Timer extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
-    ProgressBar circleBar;
     CountDownTimer countDownTimer = null;
     TextView chrono;
     Button startTime;
     int seconds = 0;
+//    float textSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timer);
-//        circleBar = findViewById(R.id.circleBar);
         chrono = findViewById(R.id.chrono);
-//        circleBar.setProgress(100);
-//        circleBar.setMax(100);
         startTime = findViewById(R.id.startButton);
-//        start(1);
+//        textSize = chrono.getTextSize();
+
 
         startTime.setOnTouchListener(this);
-        startTime.setOnClickListener(this);
+        chrono.setOnClickListener(this);
 
 
     }
-
 
 
     /* This function check if a timer already exist, cancel it and
@@ -44,26 +40,30 @@ public class Timer extends AppCompatActivity implements View.OnClickListener, Vi
 
      */
     public void startTimer() {
-        if (countDownTimer != null){
+        if (countDownTimer != null) {
             countDownTimer.cancel();
+//            chrono.setTextSize(textSize);
+
         }
         countDownTimer = new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
                 seconds = Math.toIntExact(millisUntilFinished) / 1000;
                 chrono.setText(seconds + "");
-//                circleBar.setProgress(100/seconds);
 
             }
+
             public void onFinish() {
-                chrono.setText("FINIS !!");
+                chrono.setTextSize(15);
+                chrono.setText("done");
             }
         };
         countDownTimer.start();
     }
 
+
     @Override
-    public void onClick(View view){
-//            startTimer();
+    public void onClick(View view) {
+
     }
 
 
@@ -78,3 +78,5 @@ public class Timer extends AppCompatActivity implements View.OnClickListener, Vi
         return false;
     }
 }
+
+
