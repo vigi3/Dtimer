@@ -2,12 +2,16 @@ package com.proj.dtimer;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Process;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -20,18 +24,30 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 
-public class Timer extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, Request.Method {
+public class Timer extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, Request.Method, Runnable {
 
     CountDownTimer countDownTimer = null;
     TextView chrono;
+    ImageView imageView;
+    int imageHeight;
+    int imageWidth;
     Button startTime;
     int seconds = 0;
     String token;
     String url;
+    String rawImageUrl;
     RequestQueue queue;
     Context context;
 
@@ -42,6 +58,9 @@ public class Timer extends AppCompatActivity implements View.OnClickListener, Vi
         setContentView(R.layout.timer);
         chrono = findViewById(R.id.chrono);
         startTime = findViewById(R.id.startButton);
+        imageView = findViewById(R.id.imageView);
+        imageHeight = imageView.getHeight();
+        imageWidth = imageView.getWidth();
 
         context = Timer.this;
         queue = Volley.newRequestQueue(context);
@@ -49,6 +68,8 @@ public class Timer extends AppCompatActivity implements View.OnClickListener, Vi
         chrono.setOnClickListener(this);
         token = getString(R.string.UNSPLASH_API_TOKEN);
         url = "https://api.unsplash.com/photos/random/?client_id=" + token;
+        imageCall();
+
 
 
     }
@@ -74,6 +95,7 @@ public class Timer extends AppCompatActivity implements View.OnClickListener, Vi
             public void onFinish() {
                 chrono.setTextSize(15);
                 chrono.setText("done");
+
             }
         };
         countDownTimer.start();
@@ -94,18 +116,26 @@ public class Timer extends AppCompatActivity implements View.OnClickListener, Vi
     public boolean onTouch(View v, MotionEvent event) {
         if (MotionEvent.ACTION_UP == event.getAction())
             startTimer();
-            imageCall();
+//            getImageApiBitmap(rawImageUrl);
+
         return false;
     }
 
 
     // API call
-
     public void imageCall(){
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.e("Yup", "Response: " + response.toString());
+                try {
+                    Log.d("Yup", "yaa " + response.getJSONObject("urls").get("raw"));
+                    rawImageUrl = response.getJSONObject("urls").get("small").toString();           // CHANGE TO FULL !!!!
+//                    imageView.setImageBitmap(getImageApiBitmap(rawImageUrl));
+                    Log.e("Yap", "ah " + rawImageUrl);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.d("Yup", "Response: " + response.toString());
             }
         }, new Response.ErrorListener() {
             @Override
@@ -122,8 +152,29 @@ public class Timer extends AppCompatActivity implements View.OnClickListener, Vi
 
 
 
-
-
+    @Override
+    public void run() {
+        android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+        // Fetch image from Api url
+        public Bitmap getImageApiBitmap(String rawImageUrl) {
+            Bitmap bitmap = null;
+            try {
+                URL aURL = new URL(rawImageUrl);
+                URLConnection connection = aURL.openConnection();
+                connection.connect();
+                InputStream inputStream = connection.getInputStream();
+                BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                bitmap = BitmapFactory.decodeStream(bufferedInputStream);
+                bufferedInputStream.close();
+                inputStream.close();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                Log.e("Bitmap", "Error getting bitmap from Raw url API", e);
+            }
+            return bitmap;
+        }
+    }
 }
 
 
