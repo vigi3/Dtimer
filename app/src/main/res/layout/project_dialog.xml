@@ -23,19 +23,21 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/imageView"
             app:layout_constraintLeft_toLeftOf="@id/imageView"
             app:layout_constraintRight_toRightOf="@id/imageView"
             app:layout_constraintTop_toTopOf="@id/imageView"
+            android:hint="Name"
             android:background="@drawable/text_input_box"
             >
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name"
                 android:textColor="@color/colorOrange"
                 />
         </com.google.android.material.textfield.TextInputLayout>

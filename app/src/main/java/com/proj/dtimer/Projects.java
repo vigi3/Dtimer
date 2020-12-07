@@ -4,7 +4,7 @@ package com.proj.dtimer;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "Tasks")
+@DatabaseTable(tableName = "Projects")
 
 public class Projects {
 
