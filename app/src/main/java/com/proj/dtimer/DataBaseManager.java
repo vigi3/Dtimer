@@ -125,7 +125,21 @@ public class DataBaseManager extends OrmLiteSqliteOpenHelper {
             int deletedTask = maDao.delete(tasks);
             return deletedTask;
         } catch (Exception e) {
-            Log.e ("BTO", "Error deleting ID");
+            Log.e ("DATABASE", "Error deleting ID Task");
+            return 0;
+        }
+    }
+
+    //Delete Project
+    public int delProject (Projects projects) {
+        try {
+            Dao<Projects,Integer> maDao = getDao(Projects.class);
+            String textErr = "Deleted ID " + projects.getIdProject();
+            Log.e ("DATABASE", textErr);
+            int deletedProject = maDao.delete(projects);
+            return deletedProject;
+        } catch (Exception e) {
+            Log.e ("DATABASE", "Error deleting ID Project");
             return 0;
         }
     }
