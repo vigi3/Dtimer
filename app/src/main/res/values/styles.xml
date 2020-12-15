@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:alertDialogTheme">@style/DialogThemeDarkOrange</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -17,5 +18,23 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+<!--    DialogTheme-->
+    <style name="DialogThemeDarkOrange" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/dialog_box</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:buttonStyle">@style/ButtonAlertDialog</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/ButtonAlertDialog</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/ButtonAlertDialog</item>
+
+
+
+    </style>
+
+    <style name="ButtonAlertDialog" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorOrange</item>
+
+    </style>
+
 
 </resources>

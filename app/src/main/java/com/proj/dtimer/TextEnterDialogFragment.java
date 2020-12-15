@@ -44,11 +44,11 @@ public class TextEnterDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogThemeDarkOrange);
         // Get the layout inflater
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        textEnterDialog = inflater.inflate(R.layout.project_dialog, null);
         // Pass null as the parent view because its going in the dialog layout
+        textEnterDialog = inflater.inflate(R.layout.project_dialog, null);
         builder.setView(textEnterDialog)
         // Add action buttons
                 .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {

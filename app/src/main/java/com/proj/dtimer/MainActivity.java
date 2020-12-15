@@ -65,12 +65,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onDialogPositiveClick(DialogFragment dialog) {
         projectName = dialog.getDialog().findViewById(R.id.textInput);
         if (TextUtils.isEmpty(projectName.getEditableText())) {
-//            dialog.;
             textEnterDialogFragment();
             TextInputLayout textInputLayout = dialog.getDialog().findViewById(R.id.textInputLayout);
             textInputLayout.setHint("Name missing !");
-            
-//            textInputLayout.setDefaultHintTextColor(ColorStateList.valueOf(getColor(R.color.colorRed)));
             Log.e("Dialog", "Project name is null/empty");
 
 //            throw new IllegalArgumentException();
