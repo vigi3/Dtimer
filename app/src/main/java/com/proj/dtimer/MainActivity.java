@@ -2,8 +2,11 @@ package com.proj.dtimer;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.DialogFragment;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -15,6 +18,8 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextEnterDialogFragment.TextEnterDialogListener {
@@ -34,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addProject.setOnClickListener(this);
         goTimer = findViewById(R.id.goButton);
         goTimer.setOnClickListener(this);
+        readProjects();
 
 
 
@@ -63,8 +69,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
+        // Positive Event is return by interface TextEnterDialogListener so logic can be done here
         projectName = dialog.getDialog().findViewById(R.id.textInput);
         if (TextUtils.isEmpty(projectName.getEditableText())) {
+            // if dialogBox empty, restart dialogBox
             textEnterDialogFragment();
             TextInputLayout textInputLayout = dialog.getDialog().findViewById(R.id.textInputLayout);
             textInputLayout.setHint("Name missing !");
@@ -79,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dbInst.addProject(projects);
             dbInst.close();
             dialog.dismiss();
+            readProjects();
         }
     }
 
@@ -86,4 +95,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onDialogNegativeClick(DialogFragment dialog) {
         dialog.getDialog().cancel();
     }
+
+
+
+    public void readProjects() {
+        dbInst = new DataBaseManager(this);
+        final List<Projects> projectsList = dbInst.showAllProjects();
+        if (projectsList.isEmpty()) {
+            Log.e("ReadingProject", "Project List is null/empty");
+        }
+        else {
+            for (Projects myProjectList: projectsList) {
+
+                ConstraintLayout constraintLayout = findViewById(R.id.activity_main);
+
+                TextView projectTextView = new TextView(this);
+                projectTextView.setText(myProjectList.getName());
+                projectTextView.setId(R.id.projectTextViewId);
+                constraintLayout.addView(projectTextView);
+
+                ConstraintSet constraintSet = new ConstraintSet();
+                constraintSet.clone(constraintLayout);
+
+                constraintSet.connect(projectTextView.getId(), ConstraintSet.LEFT, constraintLayout.getId(), ConstraintSet.RIGHT, 0);
+            }
+        }
+    }
+
+
+
+
+
 }
+
+
