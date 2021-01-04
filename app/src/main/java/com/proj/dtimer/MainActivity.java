@@ -125,7 +125,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone(constraintLayout);
 
-                constraintSet.connect(projectTextView.getId(), ConstraintSet.LEFT, constraintLayout.getId(), ConstraintSet.RIGHT);
+                constraintSet.connect(projectTextView.getId(), ConstraintSet.LEFT, constraintLayout.getId(), ConstraintSet.LEFT);
+                constraintSet.connect(projectTextView.getId(), ConstraintSet.RIGHT, constraintLayout.getId(), ConstraintSet.RIGHT);
+                constraintSet.connect(projectTextView.getId(), ConstraintSet.TOP, constraintLayout.getId(), ConstraintSet.TOP);
+                constraintSet.connect(projectTextView.getId(), ConstraintSet.BOTTOM, constraintLayout.getId(), ConstraintSet.BOTTOM);
+
+                constraintSet.applyTo(constraintLayout);
             }
         }
     }
