@@ -9,9 +9,11 @@ import androidx.fragment.app.DialogFragment;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -112,12 +114,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView projectTextView = new TextView(this);
                 projectTextView.setText(myProjectList.getName());
                 projectTextView.setId(R.id.projectTextViewId);
+                projectTextView.setBackground(getDrawable(R.drawable.circle));
+                projectTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                projectTextView.setGravity(Gravity.CENTER);
+                projectTextView.setTextSize(20);
+                projectTextView.setTextColor(getColor(R.color.colorOrange));
+
                 constraintLayout.addView(projectTextView);
 
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone(constraintLayout);
 
-                constraintSet.connect(projectTextView.getId(), ConstraintSet.LEFT, constraintLayout.getId(), ConstraintSet.RIGHT, 0);
+                constraintSet.connect(projectTextView.getId(), ConstraintSet.LEFT, constraintLayout.getId(), ConstraintSet.RIGHT);
             }
         }
     }
