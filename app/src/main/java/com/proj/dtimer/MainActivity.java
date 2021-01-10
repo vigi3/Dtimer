@@ -1,20 +1,31 @@
 package com.proj.dtimer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.motion.widget.MotionLayout;
+import androidx.constraintlayout.motion.widget.MotionScene;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.ObjectAnimator;
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.PathInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,15 +33,24 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextEnterDialogFragment.TextEnterDialogListener {
 
     TextView addProject;
+    TextView textViewTopLeft;
+    TextView textViewTopRight;
+    TextView textViewBottomLeft;
+    TextView textViewBottomRight;
     Button goTimer;
     TextInputEditText projectName;
     private DataBaseManager dbInst;
     private Projects projects;
+    private int index = 0;
+    private int textViewCount = 4;
+    TextView[] textViewArray;
 
 
     @Override
@@ -41,11 +61,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addProject.setOnClickListener(this);
         goTimer = findViewById(R.id.goButton);
         goTimer.setOnClickListener(this);
+        textViewArray = new TextView[4];
+        textViewArray[0] = findViewById(R.id.textViewTopLeft);
+        textViewArray[0].setOnClickListener(this);
+        textViewArray[1] = findViewById(R.id.textViewTopRight);
+        textViewArray[1].setOnClickListener(this);
+        textViewArray[2] = findViewById(R.id.textViewBottomLeft);
+        textViewArray[2].setOnClickListener(this);
+        textViewArray[3] = findViewById(R.id.textViewbottomRight);
+        textViewArray[3].setOnClickListener(this);
         readProjects();
 
-
-
     }
+
+
+
+
+
 
     @Override
     public void onClick(View view){
@@ -56,6 +88,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.goButton:
                 Intent intent = new Intent(this, Timer.class);
                 startActivity(intent);
+                break;
+            case R.id.textViewTopLeft:
+                Intent intentTopLeft = new Intent(this, ScrollingTaskActivity.class);
+                startActivity(intentTopLeft);
                 break;
         }
 
@@ -109,34 +145,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else {
             for (Projects myProjectList: projectsList) {
 
-                ConstraintLayout constraintLayout = findViewById(R.id.activity_main);
+                if (index == textViewCount) {
+                    break;
+                }
 
-                TextView projectTextView = new TextView(this);
-                projectTextView.setText(myProjectList.getName());
-                projectTextView.setId(R.id.projectTextViewId);
-                projectTextView.setBackground(getDrawable(R.drawable.circle));
-                projectTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                projectTextView.setGravity(Gravity.CENTER);
-                projectTextView.setTextSize(20);
-                projectTextView.setTextColor(getColor(R.color.colorOrange));
 
-                constraintLayout.addView(projectTextView);
+                textViewArray[index].setText(myProjectList.getName());
+                index = index + 1;
+                Log.e("TAG", "readProjects: " + myProjectList.getName());
+                Log.e("TAG", "readProjects: " + index);
 
-                ConstraintSet constraintSet = new ConstraintSet();
-                constraintSet.clone(constraintLayout);
 
-                constraintSet.connect(projectTextView.getId(), ConstraintSet.LEFT, constraintLayout.getId(), ConstraintSet.LEFT);
-                constraintSet.connect(projectTextView.getId(), ConstraintSet.RIGHT, constraintLayout.getId(), ConstraintSet.RIGHT);
-                constraintSet.connect(projectTextView.getId(), ConstraintSet.TOP, constraintLayout.getId(), ConstraintSet.TOP);
-                constraintSet.connect(projectTextView.getId(), ConstraintSet.BOTTOM, constraintLayout.getId(), ConstraintSet.BOTTOM);
 
-                constraintSet.applyTo(constraintLayout);
+//                Maybe later to create TextView programmatically, but could be against Google guidelines.
+                
+//                ConstraintLayout constraintLayout = findViewById(R.id.activity_main);
+
+//                TextView projectTextView = new TextView(this);
+//                projectTextView.setText(myProjectList.getName());
+//                projectTextView.setId(View.generateViewId());
+//                Log.e("TAG", "readProjects: " + projectTextView.getId() );
+//                projectTextView.setBackground(getDrawable(R.drawable.circle));
+//                projectTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+//                projectTextView.setGravity(Gravity.CENTER);
+//                projectTextView.setTextSize(20);
+//                projectTextView.setTextColor(getColor(R.color.colorOrange));
+//
+//                constraintLayout.addView(projectTextView);
+//
+//                ConstraintSet constraintSet = new ConstraintSet();
+//                constraintSet.clone(constraintLayout);
+//
+//                constraintSet.connect(projectTextView.getId(), ConstraintSet.LEFT, constraintLayout.getId(), ConstraintSet.LEFT);
+//                constraintSet.connect(projectTextView.getId(), ConstraintSet.RIGHT, constraintLayout.getId(), ConstraintSet.RIGHT);
+//                constraintSet.connect(projectTextView.getId(), ConstraintSet.TOP, constraintLayout.getId(), ConstraintSet.TOP);
+//                constraintSet.connect(projectTextView.getId(), ConstraintSet.BOTTOM, constraintLayout.getId(), ConstraintSet.BOTTOM);
+//
+//                constraintSet.applyTo(constraintLayout);
+
+
             }
         }
     }
-
-
-
 
 
 }
