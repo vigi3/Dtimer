@@ -14,7 +14,7 @@ public class DataBaseManager extends OrmLiteSqliteOpenHelper {
 
 
     private static final String DATABASE_NOM = "DTimer.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
 
     public DataBaseManager(Context context) {
         super(context, DATABASE_NOM, null, DATABASE_VERSION);
@@ -34,10 +34,10 @@ public class DataBaseManager extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-//            TableUtils.dropTable(connectionSource, Tasks.class, true);
-            TableUtils.createTable(connectionSource, Projects.class);
+            TableUtils.dropTable(connectionSource, Tasks.class, true);
+            TableUtils.dropTable(connectionSource, Projects.class, true);
 //            if all tables are dropped
-//            onCreate(database, connectionSource);
+            onCreate(database, connectionSource);
         } catch (Exception e) {
             Log.e("DATABASE", "Upgrade error");
 
@@ -100,7 +100,7 @@ public class DataBaseManager extends OrmLiteSqliteOpenHelper {
             return tasks;
         }
         catch (Exception e) {
-            Log.e ("DATABASE", "Error reading and showing tasks for one project" + id);
+            Log.e ("DATABASE", "Error reading and showing tasks for one project. Id: " + id);
             return null;
         }
     }
