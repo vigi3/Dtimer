@@ -92,6 +92,19 @@ public class DataBaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    //Show all Tasks for ONE PROJECT
+    public List<Tasks> showAllTasksFromOneProject(int id) {
+        try {
+            Dao<Tasks,Integer> maDao = getDao(Tasks.class);
+            List<Tasks> tasks = maDao.queryForEq("idProject", id);
+            return tasks;
+        }
+        catch (Exception e) {
+            Log.e ("DATABASE", "Error reading and showing tasks for one project" + id);
+            return null;
+        }
+    }
+
     //Update Task
     public int updateTasks(Tasks tasks) {
         try {

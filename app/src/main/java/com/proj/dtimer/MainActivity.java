@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Projects projects;
     private int index = 0;
     private int textViewCount = 4;
+    int[] idProjectView = {0, 0, 0, 0};
     TextView[] textViewArray;
 
 
@@ -91,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.textViewTopLeft:
                 Intent intentTopLeft = new Intent(this, ScrollingTaskActivity.class);
+                intentTopLeft.putExtra("EXTRA_PROJECT_ID", idProjectView[0]);
+                Log.e("TAG", "idProjectIntent: " + idProjectView[0]);
                 startActivity(intentTopLeft);
                 break;
         }
@@ -146,11 +149,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             for (Projects myProjectList: projectsList) {
 
                 if (index == textViewCount) {
+                    dbInst.close();
                     break;
                 }
 
 
                 textViewArray[index].setText(myProjectList.getName());
+                idProjectView[index] = myProjectList.getIdProject();
                 index = index + 1;
                 Log.e("TAG", "readProjects: " + myProjectList.getName());
                 Log.e("TAG", "readProjects: " + index);
@@ -158,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 //                Maybe later to create TextView programmatically, but could be against Google guidelines.
-                
+
 //                ConstraintLayout constraintLayout = findViewById(R.id.activity_main);
 
 //                TextView projectTextView = new TextView(this);
