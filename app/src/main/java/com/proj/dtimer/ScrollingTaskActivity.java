@@ -61,7 +61,7 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
 
     }
 
-    public void readTasks(int projectIdView){
+    public void readTasks(final int projectIdView){
         dbInst = new DataBaseManager(this);
 
         final List<Tasks> tasks = dbInst.showAllTasksFromOneProject(projectIdView);
@@ -86,8 +86,19 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
             taskList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    Object tasksList = adapterView.getItemAtPosition(position);
-                    Log.e("ScrollingTask", "readTaskAttributeOnHeldclick: \n" + tasksList.toString());
+                    final Object tasksList = adapterView.getItemAtPosition(position);
+                    Log.e("ScrollingTask", "readTaskAttributeOnLongclick: \n" + tasksList.toString());
+                    Snackbar.make(view, "Delete ?", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("DELETE", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dbInst = new DataBaseManager(getApplicationContext());
+                                dbInst.delTaskById((Tasks) tasksList);
+                                dbInst.close();
+                                Log.e("ScrollingTask", "DONE");
+                                readTasks(projectIdView);
+                            }
+                        }).setActionTextColor(getColor(R.color.colorRed)).show();
                     return true;
                 }
             });

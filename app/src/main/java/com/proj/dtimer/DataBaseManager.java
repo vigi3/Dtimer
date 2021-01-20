@@ -132,7 +132,7 @@ public class DataBaseManager extends OrmLiteSqliteOpenHelper {
     }
 
     //Delete Task
-    public int delTask (Tasks tasks) {
+    public int delTaskById (Tasks tasks) {
         try {
             Dao<Tasks,Integer> maDao = getDao(Tasks.class);
             String textErr = "Deleted ID " + tasks.getIdTask();
