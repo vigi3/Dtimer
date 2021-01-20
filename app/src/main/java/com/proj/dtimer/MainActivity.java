@@ -148,17 +148,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else {
             for (Projects myProjectList: projectsList) {
 
-                if (index == textViewCount) {
-                    dbInst.close();
-                    break;
-                }
-
 
                 textViewArray[index].setText(myProjectList.getName());
                 idProjectView[index] = myProjectList.getIdProject();
                 index = index + 1;
                 Log.e("TAG", "readProjects: " + myProjectList.getName());
                 Log.e("TAG", "readProjects: " + index);
+
+                if (index == textViewCount) {
+                    dbInst.close();
+                    break;
+                }
+
 
 
 
@@ -190,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             }
+            index = 0;
         }
     }
 
