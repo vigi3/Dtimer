@@ -51,8 +51,6 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 textEnterDialogTaskFragment();
             }
         });
@@ -87,6 +85,8 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
                 @Override
                 public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                     final Object tasksList = adapterView.getItemAtPosition(position);
+                    view.setElevation(5f);
+                    view.setAlpha(0.5f);
                     Log.e("ScrollingTask", "readTaskAttributeOnLongclick: \n" + tasksList.toString());
                     Snackbar.make(view, "Delete ?", Snackbar.LENGTH_INDEFINITE)
                         .setAction("DELETE", new View.OnClickListener() {
