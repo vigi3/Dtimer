@@ -82,9 +82,15 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
 
                 }
             });
-            for (Tasks myTaskList: tasks) {
-                Log.e("ScrollingTask", "readTaskName: " + myTaskList);
-            }
+
+            taskList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    Object tasksList = adapterView.getItemAtPosition(position);
+                    Log.e("ScrollingTask", "readTaskAttributeOnHeldclick: \n" + tasksList.toString());
+                    return true;
+                }
+            });
         }
 
         taskList.setAdapter(new TaskListAdapter(this, tasks));
