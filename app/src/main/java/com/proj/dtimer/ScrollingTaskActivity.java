@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -73,6 +74,14 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
         }
         else {
             taskList.setVisibility(View.VISIBLE);
+            taskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    Object tasksList = adapterView.getItemAtPosition(position);
+                    Log.e("ScrollingTask", "readTaskAttributeOnclick: \n" + tasksList.toString());
+
+                }
+            });
             for (Tasks myTaskList: tasks) {
                 Log.e("ScrollingTask", "readTaskName: " + myTaskList);
             }
@@ -119,4 +128,5 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
     public void onDialogNegativeClick(DialogFragment dialog) {
 
     }
+
 }
