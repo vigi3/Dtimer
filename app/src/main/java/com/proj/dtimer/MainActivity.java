@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.ObjectAnimator;
 import android.app.ActionBar;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -20,11 +21,16 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.PathInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
@@ -57,6 +63,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        getWindow().setEnterTransition(null);
+        getWindow().setExitTransition(null);
+        getWindow().setAllowEnterTransitionOverlap(true);
+        getWindow().setAllowReturnTransitionOverlap(true);
         setContentView(R.layout.activity_main);
         addProject = findViewById(R.id.addProject);
         addProject.setOnClickListener(this);
@@ -72,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewArray[3] = findViewById(R.id.textViewbottomRight);
         textViewArray[3].setOnClickListener(this);
         readProjects();
+
 
     }
 
@@ -94,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intentTopLeft = new Intent(this, ScrollingTaskActivity.class);
                 intentTopLeft.putExtra("EXTRA_PROJECT_ID", idProjectView[0]);
                 Log.e("TAG", "idProjectIntent: " + idProjectView[0]);
-                startActivity(intentTopLeft);
+                startActivity(intentTopLeft, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
                 break;
         }
 

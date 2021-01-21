@@ -14,8 +14,12 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import android.text.TextUtils;
+import android.transition.Explode;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -32,8 +36,22 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Transition Enter/Exit
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        getWindow().setAllowEnterTransitionOverlap(true);
+        getWindow().setAllowReturnTransitionOverlap(true);
+        Slide slide = new Slide();
+        slide.setSlideEdge(Gravity.BOTTOM);
+        getWindow().setEnterTransition(slide);
+        getWindow().setExitTransition(null);
+
         setContentView(R.layout.activity_scrolling_task);
         taskList = findViewById(R.id.taskList);
+        // Can't scroll in  a nested view with a ListView without this one
+        taskList.setNestedScrollingEnabled(true);
+
+        // Send current project id to the scrollingTask activity
         projectIdView = getIntent().getIntExtra("EXTRA_PROJECT_ID", 0);
         Log.e("Scrollingtask", "readScroll: " + projectIdView);
 
@@ -43,11 +61,8 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
         toolBarLayout.setTitle("DTimer");
         toolBarLayout.setExpandedTitleColor(getColor(R.color.colorOrange));
 
+        // AddTask button
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
-
-
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,8 +78,6 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
         dbInst = new DataBaseManager(this);
 
         final List<Tasks> tasks = dbInst.showAllTasksFromOneProject(projectIdView);
-//        final List<Tasks> tasks = dbInst.showAllTasks();
-
         Log.e("ScrollingTask", "readTaskProjectId: " + projectIdView);
 
         if(tasks.isEmpty()){
