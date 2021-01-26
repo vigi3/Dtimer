@@ -1,5 +1,7 @@
 package com.proj.dtimer;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -11,6 +13,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.DialogFragment;
 
 import android.text.TextUtils;
@@ -19,6 +22,7 @@ import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -30,6 +34,7 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
     private DataBaseManager dbInst;
     private ListView taskList;
     private Tasks tasks;
+    private Boolean ScrollPos0 = false;
     int projectIdView;
     TextInputEditText taskName;
 
@@ -70,7 +75,9 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
             }
         });
 
+
         readTasks(projectIdView);
+        nestedScrollPosition();
 
     }
 
@@ -159,4 +166,30 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
 
     }
 
+    public void nestedScrollPosition() {
+        if (taskList != null){
+            taskList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+
+                @Override
+                public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    if (scrollY == 0) {
+                        ScrollPos0 = true;
+                        swipeBackEnable();
+                    }
+                }
+
+            });
+        }
+    }
+
+    public void swipeBackEnable() {
+        taskList.setOnTouchListener(new OnSwipeTouchListener(this) {
+            // TODO: need to do check how accessibility works in android
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public void onSwipeBottom() {
+                finish();
+            }
+        });
+    }
 }
