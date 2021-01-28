@@ -1,8 +1,6 @@
 package com.proj.dtimer;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityOptions;
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -13,12 +11,9 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.DialogFragment;
 
 import android.text.TextUtils;
-import android.transition.Explode;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
@@ -151,14 +146,24 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
 
             @Override
             public void onLongItemPress() {
+                taskList.performHapticFeedback(1);
                 taskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    public void onItemClick(AdapterView<?> adapterView, final View view, int position, long l) {
                         final Object tasksList = adapterView.getItemAtPosition(position);
                         view.setElevation(5f);
                         view.setAlpha(0.5f);
                         Log.e("ScrollingTask", "readTaskAttributeOnLongclick: \n" + tasksList.toString());
-                        Snackbar.make(view, "Delete ?", Snackbar.LENGTH_INDEFINITE)
+                        Snackbar.make(view, "Delete ?", Snackbar.LENGTH_LONG)
+                            .addCallback(new Snackbar.Callback() {
+                                @Override
+                                public void onDismissed(Snackbar transientBottomBar, int event) {
+                                    super.onDismissed(transientBottomBar, event);
+                                    if (event != DISMISS_EVENT_ACTION) {
+                                        view.setAlpha(1f);
+                                    }
+                                }
+                            })
                             .setAction("DELETE", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -174,7 +179,6 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
                 });
 
                 Log.e("ScrollingTask", "readTaskAttributeOnLongclick: \n" + taskList.getAdapter().getItem(itemPosition).toString());
-                taskList.performHapticFeedback(1);
             }
         });
     }
