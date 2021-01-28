@@ -1,6 +1,7 @@
 package com.proj.dtimer;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -49,7 +50,7 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
         Slide slide = new Slide();
         slide.setSlideEdge(Gravity.BOTTOM);
         getWindow().setEnterTransition(slide);
-        getWindow().setExitTransition(null);
+        getWindow().setExitTransition(slide);
 
         setContentView(R.layout.activity_scrolling_task);
         taskList = findViewById(R.id.taskList);
@@ -77,7 +78,7 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
 
 
         readTasks(projectIdView);
-        nestedScrollPosition();
+        swipeBackEnable();
 
     }
 
@@ -166,21 +167,6 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
 
     }
 
-    public void nestedScrollPosition() {
-        if (taskList != null){
-            taskList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-
-                @Override
-                public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    if (scrollY == 0) {
-                        ScrollPos0 = true;
-                        swipeBackEnable();
-                    }
-                }
-
-            });
-        }
-    }
 
     public void swipeBackEnable() {
         taskList.setOnTouchListener(new OnSwipeTouchListener(this) {
@@ -188,7 +174,7 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public void onSwipeBottom() {
-                finish();
+                finishAfterTransition();
             }
         });
     }

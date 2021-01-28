@@ -9,7 +9,8 @@
     tools:context=".ScrollingTaskActivity"
     tools:showIn="@layout/activity_scrolling_task"
     android:background="@color/colorPrimaryDark"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    >
 
 
     <ListView
