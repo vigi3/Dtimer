@@ -22,6 +22,7 @@ import android.transition.Explode;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -38,6 +39,7 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
     private Boolean ScrollPos0 = false;
     int projectIdView;
     TextInputEditText taskName;
+    private int itemPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,36 +95,6 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
         }
         else {
             taskList.setVisibility(View.VISIBLE);
-            taskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    Object tasksList = adapterView.getItemAtPosition(position);
-                    Log.e("ScrollingTask", "readTaskAttributeOnclick: \n" + tasksList.toString());
-
-                }
-            });
-
-            taskList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    final Object tasksList = adapterView.getItemAtPosition(position);
-                    view.setElevation(5f);
-                    view.setAlpha(0.5f);
-                    Log.e("ScrollingTask", "readTaskAttributeOnLongclick: \n" + tasksList.toString());
-                    Snackbar.make(view, "Delete ?", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("DELETE", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dbInst = new DataBaseManager(getApplicationContext());
-                                dbInst.delTaskById((Tasks) tasksList);
-                                dbInst.close();
-                                Log.e("ScrollingTask", "DONE");
-                                readTasks(projectIdView);
-                            }
-                        }).setActionTextColor(getColor(R.color.colorRed)).show();
-                    return true;
-                }
-            });
         }
 
         taskList.setAdapter(new TaskListAdapter(this, tasks));
@@ -168,13 +140,41 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     public void swipeBackEnable() {
         taskList.setOnTouchListener(new OnSwipeTouchListener(this) {
             // TODO: need to do check how accessibility works in android
-            @SuppressLint("ClickableViewAccessibility")
             @Override
             public void onSwipeBottom() {
                 finishAfterTransition();
+            }
+
+            @Override
+            public void onLongItemPress() {
+                taskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                        final Object tasksList = adapterView.getItemAtPosition(position);
+                        view.setElevation(5f);
+                        view.setAlpha(0.5f);
+                        Log.e("ScrollingTask", "readTaskAttributeOnLongclick: \n" + tasksList.toString());
+                        Snackbar.make(view, "Delete ?", Snackbar.LENGTH_INDEFINITE)
+                            .setAction("DELETE", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dbInst = new DataBaseManager(getApplicationContext());
+                                    dbInst.delTaskById((Tasks) tasksList);
+                                    dbInst.close();
+                                    Log.e("ScrollingTask", "DONE");
+                                    readTasks(projectIdView);
+                                }
+                            }).setActionTextColor(getColor(R.color.colorRed)).show();
+
+                    }
+                });
+
+                Log.e("ScrollingTask", "readTaskAttributeOnLongclick: \n" + taskList.getAdapter().getItem(itemPosition).toString());
+                taskList.performHapticFeedback(1);
             }
         });
     }

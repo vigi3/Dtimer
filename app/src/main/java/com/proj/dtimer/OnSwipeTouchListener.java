@@ -3,6 +3,7 @@ package com.proj.dtimer;
 // Detects Top swipes across a view.
 
 import android.content.Context;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,8 +19,12 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
     public void onSwipeBottom() {
     }
 
+    public void onLongItemPress() {
+    }
+
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
+
         return gestureDetector.onTouchEvent(motionEvent);
     }
 
@@ -31,6 +36,11 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         @Override
         public boolean onDown(MotionEvent motionEvent) {
             return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+            onLongItemPress();
         }
 
         @Override
@@ -46,8 +56,9 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
              * If Y > 0 then it is a swipe to the bottom.
              */
             if (Math.abs(distanceY) > Math.abs(distanceX) && Math.abs(distanceY) > SWIPE_DISTANCE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                if (distanceY > 0)
+                if (distanceY > 0) {
                     onSwipeBottom();
+                }
                 return true;
             }
             return false;
