@@ -17,6 +17,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:hint="Name"
+            android:textColorHint="@color/colorOrange"
             android:layout_marginTop="10dp">
 
 
@@ -24,7 +25,7 @@
                 android:id="@+id/textInput"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorOrange"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 

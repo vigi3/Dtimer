@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int index = 0;
     private int textViewCount = 4;
     int[] idProjectView = {0, 0, 0, 0};
+    String[] nameProjectView = {"", "", "", ""};
     TextView[] textViewArray;
 
 
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.textViewTopLeft:
                 Intent intentTopLeft = new Intent(this, ScrollingTaskActivity.class);
                 intentTopLeft.putExtra("EXTRA_PROJECT_ID", idProjectView[0]);
+                intentTopLeft.putExtra("EXTRA_PROJECT_NAME", nameProjectView[0]);
                 Log.e("TAG", "idProjectIntent: " + idProjectView[0]);
                 startActivity(intentTopLeft, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
                 break;
@@ -163,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 textViewArray[index].setText(myProjectList.getName());
                 idProjectView[index] = myProjectList.getIdProject();
+                nameProjectView[index] = myProjectList.getName();
                 index = index + 1;
                 Log.e("TAG", "readProjects: " + myProjectList.getName());
                 Log.e("TAG", "readProjects: " + index);

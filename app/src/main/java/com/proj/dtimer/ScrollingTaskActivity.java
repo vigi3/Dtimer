@@ -1,6 +1,9 @@
 package com.proj.dtimer;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -23,6 +26,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -33,8 +37,8 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
     private Tasks tasks;
     private Boolean ScrollPos0 = false;
     int projectIdView;
+    String projectNameView;
     TextInputEditText taskName;
-    private int itemPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,7 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
         Slide slide = new Slide();
         slide.setSlideEdge(Gravity.BOTTOM);
         getWindow().setEnterTransition(slide);
-        getWindow().setExitTransition(slide);
+        getWindow().setExitTransition(null);
 
         setContentView(R.layout.activity_scrolling_task);
         taskList = findViewById(R.id.taskList);
@@ -56,13 +60,15 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
 
         // Send current project id to the scrollingTask activity
         projectIdView = getIntent().getIntExtra("EXTRA_PROJECT_ID", 0);
+        projectNameView = getIntent().getStringExtra("EXTRA_PROJECT_NAME");
         Log.e("Scrollingtask", "readScroll: " + projectIdView);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        toolBarLayout.setTitle("DTimer");
+        toolBarLayout.setTitle(projectNameView);
         toolBarLayout.setExpandedTitleColor(getColor(R.color.colorOrange));
+        toolBarLayout.setCollapsedTitleTextColor(getColor(R.color.colorOrange));
 
         // AddTask button
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -137,6 +143,9 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
 
     @SuppressLint("ClickableViewAccessibility")
     public void swipeBackEnable() {
+        //Custom class OnSwipeTouchListener override onClick event, they are not detected anymore
+        //I use onDown(), onLongPress() inside my custom class, which trigger onItemPress() or onLongItemPress()
+        //Then I override them here.
         taskList.setOnTouchListener(new OnSwipeTouchListener(this) {
             // TODO: need to do check how accessibility works in android
             @Override
@@ -178,7 +187,24 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
                     }
                 });
 
-                Log.e("ScrollingTask", "readTaskAttributeOnLongclick: \n" + taskList.getAdapter().getItem(itemPosition).toString());
+            }
+
+            @Override
+            public void onItemPress() {
+                taskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                        final Object tasksList = adapterView.getItemAtPosition(position);
+                        TextView textView = (TextView)view.findViewById(R.id.detailName);
+                        final View viewTask = view.findViewById(R.id.projectDialogLayout);
+                        viewTask.setTransitionName("tasksList");
+                        Intent oneTaskIntent = new Intent(getApplicationContext(), OneTaskView.class);
+                        oneTaskIntent.putExtra("EXTRA_TASK_NAME", textView.getText());
+                        startActivity(oneTaskIntent, ActivityOptions.makeSceneTransitionAnimation(ScrollingTaskActivity.this, viewTask, "tasksList").toBundle());
+                        Log.e("ScrollingTask", "readTaskAttributeOnclick: \n" + tasksList.toString());
+
+                    }
+                });
             }
         });
     }
