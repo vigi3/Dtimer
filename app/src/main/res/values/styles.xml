@@ -46,6 +46,7 @@
 
     <style name="toolbarPrimary" parent="AppTheme">
         <item name="android:background">@color/colorPrimary</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
 
     </style>
 

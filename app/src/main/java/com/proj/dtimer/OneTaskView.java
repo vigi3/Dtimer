@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionListenerAdapter;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class OneTaskView extends AppCompatActivity {
 
     private String taskNameView;
     private View includeLayout;
+    private TextView nameTask;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -45,12 +47,15 @@ public class OneTaskView extends AppCompatActivity {
         includeLayout = findViewById(R.id.projectDialogLayout);
         includeLayout.setTransitionName("tasksList");
         taskNameView = getIntent().getStringExtra("EXTRA_TASK_NAME");
-        TextView nameTask = includeLayout.findViewById(R.id.detailName);
+        nameTask = includeLayout.findViewById(R.id.detailName);
         nameTask.setText(taskNameView);
         getWindow().getSharedElementEnterTransition().addListener(new TransitionListenerAdapter() {
             @Override
             public void onTransitionEnd(Transition transition) {
                 includeLayout.setBackgroundColor(getColor(R.color.colorPrimary));
+                nameTask.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+                TextView textView = includeLayout.findViewById(R.id.percentageCompletion);
+                textView.setVisibility(View.GONE);
                 transition.removeListener(this);
             }
         });
@@ -59,6 +64,8 @@ public class OneTaskView extends AppCompatActivity {
             @Override
             public void onTransitionStart(Transition transition) {
                 includeLayout.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.project_box));
+                nameTask.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+
             }
         });
 
