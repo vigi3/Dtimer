@@ -6,9 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".OneTaskView">
 
-    <include layout="@layout/details_project_layout"
+    <TextView
+        android:id="@+id/taskTextView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
-        />
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorOrange"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
