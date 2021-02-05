@@ -11,6 +11,4 @@
         android:layout_height="@dimen/app_bar_height"
         />
 
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,7 +32,6 @@
         <item name="android:buttonBarNegativeButtonStyle">@style/ButtonAlertDialog</item>
         <item name="android:colorControlActivated">@color/colorOrange</item>
         <item name="android:colorControlNormal">@color/colorOrange</item>
-        <item name="android:textColorHint">@color/colorOrange</item>
         <item name="android:colorControlHighlight">@color/colorOrange</item>
 
 

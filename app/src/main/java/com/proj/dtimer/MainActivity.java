@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         addProject = findViewById(R.id.addProject);
         addProject.setOnClickListener(this);
-        goTimer = findViewById(R.id.goButton);
-        goTimer.setOnClickListener(this);
+//        goTimer = findViewById(R.id.goButton);
+//        goTimer.setOnClickListener(this);
         textViewArray = new TextView[4];
         textViewArray[0] = findViewById(R.id.textViewTopLeft);
         textViewArray[0].setOnClickListener(this);
@@ -99,10 +99,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.addProject:
                 textEnterDialogFragment();
                 break;
-            case R.id.goButton:
-                Intent intent = new Intent(this, Timer.class);
-                startActivity(intent);
-                break;
+//            case R.id.goButton:
+//                Intent intent = new Intent(this, Timer.class);
+//                startActivity(intent);
+//                break;
             case R.id.textViewTopLeft:
                 Intent intentTopLeft = new Intent(this, ScrollingTaskActivity.class);
                 intentTopLeft.putExtra("EXTRA_PROJECT_ID", idProjectView[0]);
