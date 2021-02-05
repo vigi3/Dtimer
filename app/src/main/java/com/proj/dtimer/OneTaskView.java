@@ -6,6 +6,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.drawable.Drawable;
 import android.transition.AutoTransition;
 import android.transition.Explode;
@@ -54,8 +56,7 @@ public class OneTaskView extends AppCompatActivity {
         taskTextView = findViewById(R.id.taskTextView);
         taskTextView.setTransitionName("tasksList");
         taskNameView = getIntent().getStringExtra("EXTRA_TASK_NAME");
-        TextView textView = (TextView) taskTextView;
-//        textView.setText(taskNameView);
+
         scheduleStartPostponedTransition(taskTextView);
         getWindow().getSharedElementEnterTransition().addListener(new TransitionListenerAdapter() {
             @Override
@@ -87,8 +88,19 @@ public class OneTaskView extends AppCompatActivity {
                     @Override
                     public boolean onPreDraw() {
                         sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
-                        Log.e("efr", "onPreDraw: true");
                         startPostponedEnterTransition();
+
+                        //Text needs a specific animation, it does not work with shared element transition
+                        //A valueAnimator object is created, and the textSize property is used
+                        TextView textView = (TextView) taskTextView;
+                        final float startSize = 15;
+                        final float endSize = 30;
+                        final int animationDuration = 300;
+                        ValueAnimator animator = ObjectAnimator.ofFloat(textView, "textSize",startSize, endSize);
+                        animator.setDuration(animationDuration);
+                        animator.start();
+                        textView.setText(taskNameView);
+
                         return true;
                     }
                 }
