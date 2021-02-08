@@ -87,6 +87,12 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readTasks(projectIdView);
+    }
+
     public void readTasks(final int projectIdView){
         dbInst = new DataBaseManager(this);
 
@@ -196,13 +202,14 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
                 taskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                        final Object tasksList = adapterView.getItemAtPosition(position);
+                        final Tasks tasksList = (Tasks) adapterView.getItemAtPosition(position);
                         TextView textView = (TextView)view.findViewById(R.id.detailName);
                         final View viewTask = view.findViewById(R.id.projectDialogLayout);
                         viewTask.setTransitionName("tasksList");
                         Intent oneTaskIntent = new Intent(getApplicationContext(), OneTaskView.class);
                         oneTaskIntent.putExtra("EXTRA_TASK_NAME", textView.getText());
                         oneTaskIntent.putExtra("EXTRA_TITLE_MARGIN", marginTitle);
+                        oneTaskIntent.putExtra("EXTRA_ID_TASK", tasksList.getIdTask());
                         startActivity(oneTaskIntent, ActivityOptions.makeSceneTransitionAnimation(ScrollingTaskActivity.this, viewTask, "tasksList").toBundle());
                         Log.e("ScrollingTask", "readTaskAttributeOnclick: \n" + tasksList.toString());
 

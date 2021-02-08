@@ -24,15 +24,22 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 
-public class OneTaskView extends AppCompatActivity {
+public class OneTaskView extends AppCompatActivity implements View.OnClickListener {
 
+    private DataBaseManager dbInst;
     private String taskNameView;
     private View taskTextView;
+    private int idTask;
     private TextView nameTask;
     private int paddingTitle;
+    private Button priority1;
+    private Button priority2;
+    private Button priority3;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -58,7 +65,20 @@ public class OneTaskView extends AppCompatActivity {
         taskTextView.setTransitionName("tasksList");
         taskNameView = getIntent().getStringExtra("EXTRA_TASK_NAME");
         paddingTitle = getIntent().getIntExtra("EXTRA_TITLE_NAME", 0);
+        idTask = getIntent().getIntExtra("EXTRA_ID_TASK", 0);
+        Log.d("OneTaskView", "onCreate: " + idTask);
         taskTextView.setPadding(100, 300, 0, 0);
+
+        priority1 = findViewById(R.id.buttonPriority1);
+        priority2 = findViewById(R.id.buttonPriority2);
+        priority3 = findViewById(R.id.buttonPriority3);
+
+        priority1.setOnClickListener(this);
+        priority2.setOnClickListener(this);
+        priority3.setOnClickListener(this);
+
+
+
 
         scheduleStartPostponedTransition(taskTextView);
         getWindow().getSharedElementEnterTransition().addListener(new TransitionListenerAdapter() {
@@ -109,5 +129,28 @@ public class OneTaskView extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.buttonPriority1:
+                dbInst = new DataBaseManager(this);
+                final Tasks task = dbInst.showOneTask(idTask);
+                task.setPriority(1);
+                dbInst.updateTasks(task);
+                dbInst.close();
+                priority1.getBackground().setTint(getColor(R.color.colorRed));
+                Log.e("OneTaskView", "readTaskAttributeOnclick: \n" + task.toString());
+
+                break;
+
+            case R.id.buttonPriority2:
+                break;
+
+            case R.id.buttonPriority3:
+        }
+
     }
 }
