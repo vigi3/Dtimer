@@ -12,6 +12,9 @@
         android:layout_height="@dimen/app_bar_height"
         android:background="@color/colorPrimary"
         android:textColor="@color/colorOrange"
+        android:text="TestTask"
+        android:textAlignment="gravity"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>

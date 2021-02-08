@@ -36,6 +36,7 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
     private ListView taskList;
     private Tasks tasks;
     private Boolean ScrollPos0 = false;
+    private int marginTitle;
     int projectIdView;
     String projectNameView;
     TextInputEditText taskName;
@@ -69,6 +70,7 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
         toolBarLayout.setTitle(projectNameView);
         toolBarLayout.setExpandedTitleColor(getColor(R.color.colorOrange));
         toolBarLayout.setCollapsedTitleTextColor(getColor(R.color.colorOrange));
+        marginTitle = toolBarLayout.getExpandedTitleMarginStart();
 
         // AddTask button
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -200,6 +202,7 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
                         viewTask.setTransitionName("tasksList");
                         Intent oneTaskIntent = new Intent(getApplicationContext(), OneTaskView.class);
                         oneTaskIntent.putExtra("EXTRA_TASK_NAME", textView.getText());
+                        oneTaskIntent.putExtra("EXTRA_TITLE_MARGIN", marginTitle);
                         startActivity(oneTaskIntent, ActivityOptions.makeSceneTransitionAnimation(ScrollingTaskActivity.this, viewTask, "tasksList").toBundle());
                         Log.e("ScrollingTask", "readTaskAttributeOnclick: \n" + tasksList.toString());
 

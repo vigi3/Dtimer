@@ -32,6 +32,7 @@ public class OneTaskView extends AppCompatActivity {
     private String taskNameView;
     private View taskTextView;
     private TextView nameTask;
+    private int paddingTitle;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -56,6 +57,8 @@ public class OneTaskView extends AppCompatActivity {
         taskTextView = findViewById(R.id.taskTextView);
         taskTextView.setTransitionName("tasksList");
         taskNameView = getIntent().getStringExtra("EXTRA_TASK_NAME");
+        paddingTitle = getIntent().getIntExtra("EXTRA_TITLE_NAME", 0);
+        taskTextView.setPadding(100, 300, 0, 0);
 
         scheduleStartPostponedTransition(taskTextView);
         getWindow().getSharedElementEnterTransition().addListener(new TransitionListenerAdapter() {
@@ -93,13 +96,14 @@ public class OneTaskView extends AppCompatActivity {
                         //Text needs a specific animation, it does not work with shared element transition
                         //A valueAnimator object is created, and the textSize property is used
                         TextView textView = (TextView) taskTextView;
+                        textView.setText(taskNameView);
                         final float startSize = 15;
                         final float endSize = 30;
-                        final int animationDuration = 300;
+                        final int animationDuration = 200;
                         ValueAnimator animator = ObjectAnimator.ofFloat(textView, "textSize",startSize, endSize);
                         animator.setDuration(animationDuration);
                         animator.start();
-                        textView.setText(taskNameView);
+//                        textView.setPadding(100, 300, 0, 0);
 
                         return true;
                     }
