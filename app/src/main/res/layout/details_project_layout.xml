@@ -24,11 +24,11 @@
         tools:layout_editor_absoluteY="62dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/percentageCompletion"
+        app:layout_constraintBottom_toTopOf="@+id/priority"
         />
 
     <TextView
-        android:id="@+id/percentageCompletion"
+        android:id="@+id/priority"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorOrange"

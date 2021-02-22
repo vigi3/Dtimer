@@ -8,6 +8,8 @@ import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import java.util.List;
 
 public class TaskListAdapter extends BaseAdapter {
@@ -44,6 +46,7 @@ public class TaskListAdapter extends BaseAdapter {
             convertedView = layoutInflater.inflate(R.layout.details_project_layout, null);
             holder = new ViewHolder();
             holder.nameView = (TextView) convertedView.findViewById(R.id.detailName);
+            holder.priorityNameView = (TextView)convertedView.findViewById(R.id.priority);
             convertedView.setTag(holder);
         }
         else {
@@ -52,11 +55,27 @@ public class TaskListAdapter extends BaseAdapter {
 
         Tasks tasks = this.tasksList.get(position);
         holder.nameView.setText(tasks.getName());
+        switch (tasks.getPriority()) {
+            case 0:
+                holder.priorityNameView.setText("Normal");
+                holder.priorityNameView.setTextColor(ContextCompat.getColor(context,R.color.colorWhite));
+                break;
+            case 1:
+                holder.priorityNameView.setText("Urgent");
+                holder.priorityNameView.setTextColor(ContextCompat.getColor(context,R.color.colorRed));
+                break;
+            case 2:
+                holder.priorityNameView.setText("Important");
+                holder.priorityNameView.setTextColor(ContextCompat.getColor(context,R.color.colorYellowSpice));
+                break;
+
+        }
 
         return convertedView;
     }
 
     static class ViewHolder {
         TextView nameView;
+        TextView priorityNameView;
     }
 }
