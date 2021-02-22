@@ -210,6 +210,7 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
                         oneTaskIntent.putExtra("EXTRA_TASK_NAME", textView.getText());
                         oneTaskIntent.putExtra("EXTRA_TITLE_MARGIN", marginTitle);
                         oneTaskIntent.putExtra("EXTRA_ID_TASK", tasksList.getIdTask());
+                        oneTaskIntent.putExtra("EXTRA_PRIORITY_TASK", tasksList.getPriority());
                         startActivity(oneTaskIntent, ActivityOptions.makeSceneTransitionAnimation(ScrollingTaskActivity.this, viewTask, "tasksList").toBundle());
                         Log.e("ScrollingTask", "readTaskAttributeOnclick: \n" + tasksList.toString());
 

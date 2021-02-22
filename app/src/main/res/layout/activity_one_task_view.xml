@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
-        android:id="@+id/buttonPriority1"
+        android:id="@+id/buttonPriorityMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Urgent"
@@ -26,36 +26,36 @@
         android:background="@drawable/button_priority_drawable"
         android:elevation="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/buttonPriority2"
+        app:layout_constraintEnd_toStartOf="@id/buttonPriorityImportant"
         app:layout_constraintTop_toBottomOf="@id/taskTextView"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         tools:layout_editor_absoluteX="21dp"
         tools:layout_editor_absoluteY="241dp" />
 
     <Button
-        android:id="@+id/buttonPriority2"
+        android:id="@+id/buttonPriorityImportant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Important"
         android:textColor="@color/colorOrange"
         android:background="@drawable/button_priority_drawable"
         android:elevation="5dp"
-        app:layout_constraintStart_toEndOf="@id/buttonPriority1"
-        app:layout_constraintEnd_toStartOf="@id/buttonPriority3"
+        app:layout_constraintStart_toEndOf="@id/buttonPriorityMain"
+        app:layout_constraintEnd_toStartOf="@id/buttonPriorityNormal"
         app:layout_constraintTop_toBottomOf="@id/taskTextView"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         tools:layout_editor_absoluteX="164dp"
         tools:layout_editor_absoluteY="233dp" />
 
     <Button
-        android:id="@+id/buttonPriority3"
+        android:id="@+id/buttonPriorityNormal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Normal"
         android:textColor="@color/colorOrange"
         android:background="@drawable/button_priority_drawable"
         android:elevation="5dp"
-        app:layout_constraintStart_toEndOf="@id/buttonPriority2"
+        app:layout_constraintStart_toEndOf="@id/buttonPriorityImportant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/taskTextView"
         app:layout_constraintBottom_toTopOf="@id/guideline"

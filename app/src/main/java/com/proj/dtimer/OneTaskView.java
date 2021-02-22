@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.transition.AutoTransition;
 import android.transition.Explode;
@@ -34,11 +35,13 @@ public class OneTaskView extends AppCompatActivity implements View.OnClickListen
     private String taskNameView;
     private View taskTextView;
     private int idTask;
+    private int priority;
+    private Drawable initBackground;
     private TextView nameTask;
     private int paddingTitle;
-    private Button priority1;
-    private Button priority2;
-    private Button priority3;
+    private Button priorityMain;
+    private Button priorityImportant;
+    private Button priorityNormal;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -66,17 +69,24 @@ public class OneTaskView extends AppCompatActivity implements View.OnClickListen
         taskNameView = getIntent().getStringExtra("EXTRA_TASK_NAME");
         paddingTitle = getIntent().getIntExtra("EXTRA_TITLE_NAME", 0);
         idTask = getIntent().getIntExtra("EXTRA_ID_TASK", 0);
-        Log.d("OneTaskView", "onCreate: " + idTask);
+        priority = getIntent().getIntExtra("EXTRA_PRIORITY_TASK", 0);
+
+        Log.d("OneTaskView", "onCreate idTask: " + idTask);
+        Log.d("OneTaskView", "onCreate priority: " + priority);
+
         taskTextView.setPadding(100, 300, 0, 0);
 
-        priority1 = findViewById(R.id.buttonPriority1);
-        priority2 = findViewById(R.id.buttonPriority2);
-        priority3 = findViewById(R.id.buttonPriority3);
+        priorityMain = findViewById(R.id.buttonPriorityMain);
+        priorityImportant = findViewById(R.id.buttonPriorityImportant);
+        priorityNormal = findViewById(R.id.buttonPriorityNormal);
 
-        priority1.setOnClickListener(this);
-        priority2.setOnClickListener(this);
-        priority3.setOnClickListener(this);
+        priorityMain.setOnClickListener(this);
+        priorityImportant.setOnClickListener(this);
+        priorityNormal.setOnClickListener(this);
 
+        initBackground = ContextCompat.getDrawable(this, R.drawable.button_priority_drawable);
+
+        setBackgroundPriority(priority);
 
 
 
@@ -103,6 +113,7 @@ public class OneTaskView extends AppCompatActivity implements View.OnClickListen
         });
 
     }
+
 
     //Check that the transition does know the EndValue of the Drawable, to smooth the animation
     private void scheduleStartPostponedTransition(final View sharedElement) {
@@ -135,22 +146,60 @@ public class OneTaskView extends AppCompatActivity implements View.OnClickListen
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.buttonPriority1:
+            case R.id.buttonPriorityMain:
                 dbInst = new DataBaseManager(this);
                 final Tasks task = dbInst.showOneTask(idTask);
                 task.setPriority(1);
                 dbInst.updateTasks(task);
                 dbInst.close();
-                priority1.getBackground().setTint(getColor(R.color.colorRed));
-                Log.e("OneTaskView", "readTaskAttributeOnclick: \n" + task.toString());
+                setBackgroundPriority(task.getPriority());
+                Log.d("OneTaskView", "readTaskPriorityOnclick: \n" + task.toString());
 
                 break;
 
-            case R.id.buttonPriority2:
+            case R.id.buttonPriorityImportant:
+                dbInst = new DataBaseManager(this);
+                final Tasks task2 = dbInst.showOneTask(idTask);
+                task2.setPriority(2);
+                dbInst.updateTasks(task2);
+                dbInst.close();
+                setBackgroundPriority(task2.getPriority());
+                Log.d("OneTaskView", "readTaskPriorityOnclick: \n" + task2.toString());
                 break;
 
-            case R.id.buttonPriority3:
+            case R.id.buttonPriorityNormal:
+                dbInst = new DataBaseManager(this);
+                final Tasks task3 = dbInst.showOneTask(idTask);
+                task3.setPriority(0);
+                dbInst.updateTasks(task3);
+                dbInst.close();
+                setBackgroundPriority(task3.getPriority());
+                Log.d("OneTaskView", "readTaskPriorityOnclick: \n" + task3.toString());
+                break;
         }
 
+    }
+
+    public void setBackgroundPriority(int intPriority) {
+
+        switch (intPriority){
+            case 0: //Normal - White
+                priorityNormal.getBackground().setTint(getColor(R.color. colorWhite));
+                Log.d("OneTaskView", "setBackgroundPriority: initBackground: " + initBackground);
+                priorityImportant.setBackgroundTintList(null);
+                priorityMain.setBackgroundTintList(null);
+                break;
+            case 1: // Urgent - Red
+                priorityMain.getBackground().setTint(getColor(R.color.colorRed));
+                Log.d("OneTaskView", "setBackgroundPriority: initBackground: " + initBackground);
+                priorityImportant.setBackgroundTintList(null);
+                priorityNormal.setBackgroundTintList(null);
+                break;
+            case 2: // Important - Yellow
+                priorityImportant.getBackground().setTint(getColor(R.color.colorYellow));
+                priorityNormal.setBackgroundTintList(null);
+                priorityMain.setBackgroundTintList(null);
+                break;
+        }
     }
 }
