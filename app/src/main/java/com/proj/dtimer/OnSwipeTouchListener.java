@@ -59,8 +59,8 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
              * If Y > X then the swipe was done on the Y axis (Top or bottom)
              * If Y > 0 then it is a swipe to the bottom.
              */
-            if (Math.abs(distanceY) > Math.abs(distanceX) && Math.abs(distanceY) > SWIPE_DISTANCE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                if (distanceY > 0) {
+            if (Math.abs(distanceX) > Math.abs(distanceY) && Math.abs(distanceX) > SWIPE_DISTANCE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                if (distanceX > 0) {
                     onSwipeBottom();
                 }
                 return true;
