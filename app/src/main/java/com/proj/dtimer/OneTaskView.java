@@ -134,6 +134,7 @@ public class OneTaskView extends AppCompatActivity implements View.OnClickListen
                         ValueAnimator animator = ObjectAnimator.ofFloat(textView, "textSize",startSize, endSize);
                         animator.setDuration(animationDuration);
                         animator.start();
+                        Log.d("OneTaskView", "ScheduleStartPostponedTransition successful");
 //                        textView.setPadding(100, 300, 0, 0);
 
                         return true;

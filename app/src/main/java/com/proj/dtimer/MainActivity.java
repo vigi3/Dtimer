@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextInputEditText projectName;
     private DataBaseManager dbInst;
     private Projects projects;
+    private int textViewCount;
     private int index = 0;
-    private int textViewCount = 4;
-    int[] idProjectView = {0, 0, 0, 0};
-    String[] nameProjectView = {"", "", "", ""};
+    int[] idProjectView = {0, 0, 0, 0, 0, 0, 0, 0};
+    String[] nameProjectView = {"", "", "", "", "","","",""};
     TextView[] textViewArray;
 
 
@@ -74,15 +74,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addProject.setOnClickListener(this);
 //        goTimer = findViewById(R.id.goButton);
 //        goTimer.setOnClickListener(this);
-        textViewArray = new TextView[4];
+
+        textViewArray = new TextView[8];
+        textViewCount = textViewArray.length;
         textViewArray[0] = findViewById(R.id.textViewTopLeft);
-        textViewArray[0].setOnClickListener(this);
         textViewArray[1] = findViewById(R.id.textViewTopRight);
-        textViewArray[1].setOnClickListener(this);
-        textViewArray[2] = findViewById(R.id.textViewBottomLeft);
-        textViewArray[2].setOnClickListener(this);
-        textViewArray[3] = findViewById(R.id.textViewbottomRight);
-        textViewArray[3].setOnClickListener(this);
+        textViewArray[2] = findViewById(R.id.textViewMiddleTop);
+        textViewArray[3] = findViewById(R.id.textViewMiddleBottom);
+        textViewArray[4] = findViewById(R.id.textViewBottomLeft);
+        textViewArray[5] = findViewById(R.id.textViewbottomRight);
+        textViewArray[6] = findViewById(R.id.textViewMiddleLeft);
+        textViewArray[7] = findViewById(R.id.textViewMiddleRight);
+
+
+        SetOnClickListenerOnProject(textViewArray);
+
         readProjects();
 
 
@@ -110,6 +116,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e("TAG", "idProjectIntent: " + idProjectView[0]);
                 startActivity(intentTopLeft, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
                 break;
+
+            case R.id.textViewTopRight:
+                Intent intentTopRight = new Intent(this, ScrollingTaskActivity.class);
+                intentTopRight.putExtra("EXTRA_PROJECT_ID", idProjectView[1]);
+                intentTopRight.putExtra("EXTRA_PROJECT_NAME", nameProjectView[1]);
+                Log.e("TAG", "idProjectIntent: " + idProjectView[1]);
+                startActivity(intentTopRight, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                break;
+
+            case R.id.textViewMiddleTop:
+                Intent intentMiddleTop = new Intent(this, ScrollingTaskActivity.class);
+                intentMiddleTop.putExtra("EXTRA_PROJECT_ID", idProjectView[2]);
+                intentMiddleTop.putExtra("EXTRA_PROJECT_NAME", nameProjectView[2]);
+                Log.e("TAG", "idProjectIntent: " + idProjectView[2]);
+                startActivity(intentMiddleTop, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                break;
+
+            case R.id.textViewMiddleBottom:
+                Intent intentMiddleBottom = new Intent(this, ScrollingTaskActivity.class);
+                intentMiddleBottom.putExtra("EXTRA_PROJECT_ID", idProjectView[3]);
+                intentMiddleBottom.putExtra("EXTRA_PROJECT_NAME", nameProjectView[3]);
+                Log.e("TAG", "idProjectIntent: " + idProjectView[3]);
+                startActivity(intentMiddleBottom, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                break;
+
+            case R.id.textViewBottomLeft:
+                Intent intentBottomLeft = new Intent(this, ScrollingTaskActivity.class);
+                intentBottomLeft.putExtra("EXTRA_PROJECT_ID", idProjectView[4]);
+                intentBottomLeft.putExtra("EXTRA_PROJECT_NAME", nameProjectView[4]);
+                Log.e("TAG", "idProjectIntent: " + idProjectView[4]);
+                startActivity(intentBottomLeft, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                break;
+
+            case R.id.textViewbottomRight:
+                Intent intentBottomRight = new Intent(this, ScrollingTaskActivity.class);
+                intentBottomRight.putExtra("EXTRA_PROJECT_ID", idProjectView[5]);
+                intentBottomRight.putExtra("EXTRA_PROJECT_NAME", nameProjectView[5]);
+                Log.e("TAG", "idProjectIntent: " + idProjectView[5]);
+                startActivity(intentBottomRight, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                break;
+
+            case R.id.textViewMiddleLeft:
+                Intent intentMiddleLeft = new Intent(this, ScrollingTaskActivity.class);
+                intentMiddleLeft.putExtra("EXTRA_PROJECT_ID", idProjectView[6]);
+                intentMiddleLeft.putExtra("EXTRA_PROJECT_NAME", nameProjectView[6]);
+                Log.e("TAG", "idProjectIntent: " + idProjectView[6]);
+                startActivity(intentMiddleLeft, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                break;
+
+            case R.id.textViewMiddleRight:
+                Intent intentMiddleRight = new Intent(this, ScrollingTaskActivity.class);
+                intentMiddleRight.putExtra("EXTRA_PROJECT_ID", idProjectView[7]);
+                intentMiddleRight.putExtra("EXTRA_PROJECT_NAME", nameProjectView[7]);
+                Log.e("TAG", "idProjectIntent: " + idProjectView[7]);
+                startActivity(intentMiddleRight, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                break;
+
         }
 
 
@@ -207,6 +270,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
             index = 0;
+        }
+    }
+
+    private void SetOnClickListenerOnProject(TextView[] viewProject){
+        for (TextView textViewProjectListener: viewProject) {
+            textViewProjectListener.setOnClickListener(MainActivity.this);
         }
     }
 
