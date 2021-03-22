@@ -56,8 +56,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Projects projects;
     private int textViewCount;
     private int index = 0;
+    private int indexArray = 0;
     int[] idProjectView = {0, 0, 0, 0, 0, 0, 0, 0};
-    String[] nameProjectView = {"", "", "", "", "","","",""};
+    String[] nameProjectView = {"","","","","","","",""};
     TextView[] textViewArray;
 
 
@@ -86,18 +87,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewArray[6] = findViewById(R.id.textViewMiddleLeft);
         textViewArray[7] = findViewById(R.id.textViewMiddleRight);
 
-
         SetOnClickListenerOnProject(textViewArray);
-
         readProjects();
 
-
     }
-
-
-
-
-
 
     @Override
     public void onClick(View view){
@@ -105,78 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.addProject:
                 textEnterDialogFragment();
                 break;
-//            case R.id.goButton:
-//                Intent intent = new Intent(this, Timer.class);
-//                startActivity(intent);
-//                break;
-            case R.id.textViewTopLeft:
-                Intent intentTopLeft = new Intent(this, ScrollingTaskActivity.class);
-                intentTopLeft.putExtra("EXTRA_PROJECT_ID", idProjectView[0]);
-                intentTopLeft.putExtra("EXTRA_PROJECT_NAME", nameProjectView[0]);
-                Log.e("TAG", "idProjectIntent: " + idProjectView[0]);
-                startActivity(intentTopLeft, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-                break;
-
-            case R.id.textViewTopRight:
-                Intent intentTopRight = new Intent(this, ScrollingTaskActivity.class);
-                intentTopRight.putExtra("EXTRA_PROJECT_ID", idProjectView[1]);
-                intentTopRight.putExtra("EXTRA_PROJECT_NAME", nameProjectView[1]);
-                Log.e("TAG", "idProjectIntent: " + idProjectView[1]);
-                startActivity(intentTopRight, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-                break;
-
-            case R.id.textViewMiddleTop:
-                Intent intentMiddleTop = new Intent(this, ScrollingTaskActivity.class);
-                intentMiddleTop.putExtra("EXTRA_PROJECT_ID", idProjectView[2]);
-                intentMiddleTop.putExtra("EXTRA_PROJECT_NAME", nameProjectView[2]);
-                Log.e("TAG", "idProjectIntent: " + idProjectView[2]);
-                startActivity(intentMiddleTop, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-                break;
-
-            case R.id.textViewMiddleBottom:
-                Intent intentMiddleBottom = new Intent(this, ScrollingTaskActivity.class);
-                intentMiddleBottom.putExtra("EXTRA_PROJECT_ID", idProjectView[3]);
-                intentMiddleBottom.putExtra("EXTRA_PROJECT_NAME", nameProjectView[3]);
-                Log.e("TAG", "idProjectIntent: " + idProjectView[3]);
-                startActivity(intentMiddleBottom, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-                break;
-
-            case R.id.textViewBottomLeft:
-                Intent intentBottomLeft = new Intent(this, ScrollingTaskActivity.class);
-                intentBottomLeft.putExtra("EXTRA_PROJECT_ID", idProjectView[4]);
-                intentBottomLeft.putExtra("EXTRA_PROJECT_NAME", nameProjectView[4]);
-                Log.e("TAG", "idProjectIntent: " + idProjectView[4]);
-                startActivity(intentBottomLeft, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-                break;
-
-            case R.id.textViewbottomRight:
-                Intent intentBottomRight = new Intent(this, ScrollingTaskActivity.class);
-                intentBottomRight.putExtra("EXTRA_PROJECT_ID", idProjectView[5]);
-                intentBottomRight.putExtra("EXTRA_PROJECT_NAME", nameProjectView[5]);
-                Log.e("TAG", "idProjectIntent: " + idProjectView[5]);
-                startActivity(intentBottomRight, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-                break;
-
-            case R.id.textViewMiddleLeft:
-                Intent intentMiddleLeft = new Intent(this, ScrollingTaskActivity.class);
-                intentMiddleLeft.putExtra("EXTRA_PROJECT_ID", idProjectView[6]);
-                intentMiddleLeft.putExtra("EXTRA_PROJECT_NAME", nameProjectView[6]);
-                Log.e("TAG", "idProjectIntent: " + idProjectView[6]);
-                startActivity(intentMiddleLeft, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-                break;
-
-            case R.id.textViewMiddleRight:
-                Intent intentMiddleRight = new Intent(this, ScrollingTaskActivity.class);
-                intentMiddleRight.putExtra("EXTRA_PROJECT_ID", idProjectView[7]);
-                intentMiddleRight.putExtra("EXTRA_PROJECT_NAME", nameProjectView[7]);
-                Log.e("TAG", "idProjectIntent: " + idProjectView[7]);
-                startActivity(intentMiddleRight, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-                break;
-
         }
-
-
-
     }
 
     public void textEnterDialogFragment() {
@@ -235,51 +157,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (index == textViewCount) {
                     dbInst.close();
+                    index = 0;
                     break;
                 }
-
-
-
-
-//                Maybe later to create TextView programmatically, but could be against Google guidelines.
-
-//                ConstraintLayout constraintLayout = findViewById(R.id.activity_main);
-
-//                TextView projectTextView = new TextView(this);
-//                projectTextView.setText(myProjectList.getName());
-//                projectTextView.setId(View.generateViewId());
-//                Log.e("TAG", "readProjects: " + projectTextView.getId() );
-//                projectTextView.setBackground(getDrawable(R.drawable.circle));
-//                projectTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-//                projectTextView.setGravity(Gravity.CENTER);
-//                projectTextView.setTextSize(20);
-//                projectTextView.setTextColor(getColor(R.color.colorOrange));
-//
-//                constraintLayout.addView(projectTextView);
-//
-//                ConstraintSet constraintSet = new ConstraintSet();
-//                constraintSet.clone(constraintLayout);
-//
-//                constraintSet.connect(projectTextView.getId(), ConstraintSet.LEFT, constraintLayout.getId(), ConstraintSet.LEFT);
-//                constraintSet.connect(projectTextView.getId(), ConstraintSet.RIGHT, constraintLayout.getId(), ConstraintSet.RIGHT);
-//                constraintSet.connect(projectTextView.getId(), ConstraintSet.TOP, constraintLayout.getId(), ConstraintSet.TOP);
-//                constraintSet.connect(projectTextView.getId(), ConstraintSet.BOTTOM, constraintLayout.getId(), ConstraintSet.BOTTOM);
-//
-//                constraintSet.applyTo(constraintLayout);
-
-
             }
-            index = 0;
+
         }
     }
 
+    //OnClickListener For each project
     private void SetOnClickListenerOnProject(TextView[] viewProject){
-        for (TextView textViewProjectListener: viewProject) {
-            textViewProjectListener.setOnClickListener(MainActivity.this);
+        indexArray = 0;
+
+        for (final TextView textViewProjectListener: viewProject) {
+            textViewProjectListener.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    for (TextView oneTextView: textViewArray ){
+                        Log.d("TAG", "indexArray: " + indexArray);
+
+                        //Detect which project is clicked on, send id+Name to ScrollingTaskActivity and launch it.
+                        if (view.getId() == oneTextView.getId()) {
+                            Intent intentProject = new Intent(MainActivity.this, ScrollingTaskActivity.class);
+                            intentProject.putExtra("EXTRA_PROJECT_ID", idProjectView[indexArray]);
+                            intentProject.putExtra("EXTRA_PROJECT_NAME", nameProjectView[indexArray]);
+                            Log.e("TAG", "idProjectIntent: " + idProjectView[indexArray]);
+                            startActivity(intentProject, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
+                            indexArray = 0;
+                            break;
+                        }
+                        else {
+                            indexArray++;
+                        }
+                    }
+                }
+            });
         }
     }
-
-
 }
 
 
