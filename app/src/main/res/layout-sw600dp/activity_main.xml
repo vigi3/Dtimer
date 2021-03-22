@@ -22,7 +22,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="DTimer"
+        app:title="DTask"
         app:titleTextColor="@color/colorOrange" />
 
     <TextView
