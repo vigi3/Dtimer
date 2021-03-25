@@ -47,15 +47,9 @@ import java.util.concurrent.ScheduledExecutorService;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextEnterDialogFragment.TextEnterDialogListener {
 
     TextView addProject;
-    TextView textViewTopLeft;
-    TextView textViewTopRight;
-    TextView textViewBottomLeft;
-    TextView textViewBottomRight;
-    Button goTimer;
     TextInputEditText projectName;
     private DataBaseManager dbInst;
     private Projects projects;
-    private int textViewCount;
     private int index = 0;
     private int indexArray;
     private int indexArrayLong;
@@ -67,17 +61,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Start and End animation
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         getWindow().setEnterTransition(null);
         getWindow().setExitTransition(null);
         getWindow().setAllowEnterTransitionOverlap(true);
         getWindow().setAllowReturnTransitionOverlap(true);
+
         setContentView(R.layout.activity_main);
         addProject = findViewById(R.id.addProject);
         addProject.setOnClickListener(this);
 
+        //Creation of 8 "Button" for each project
         textViewArray = new TextView[8];
-        textViewCount = textViewArray.length;
         textViewArray[0] = findViewById(R.id.textViewTopLeft);
         textViewArray[1] = findViewById(R.id.textViewTopRight);
         textViewArray[2] = findViewById(R.id.textViewMiddleTop);
@@ -93,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //OnClick method used for creation of a project
     @Override
     public void onClick(View view){
         switch (view.getId()){
@@ -102,12 +99,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    //Creation of Dialog box to add a project name
     public void textEnterDialogFragment() {
-        // Create an instance of the dialog fragment and show it
         TextEnterDialogFragment textDialog = new TextEnterDialogFragment();
         textDialog.show(getSupportFragmentManager(), "TextEnterDialogFragment");
     }
 
+    //Dialog box positive and negative button, add or cancel the creation of a project
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         // Positive Event is return by interface TextEnterDialogListener so logic can be done here
@@ -163,11 +161,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    //OnClickListener For each project
+    //Set OnClick and OnLongClick Listener For each project
     private void SetOnClickListenerOnProject(TextView[] viewProject){
         indexArray = 0;
         indexArrayLong = 0;
-
         for (final TextView textViewProjectListener: viewProject) {
             textViewProjectListener.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -197,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     for (final TextView oneTextViewLong: textViewArray ){
                         Log.d("TAG", "indexArrayLong: " + indexArrayLong);
 
-                        //Delete Project and his Tasks, set the Snackbar
+                        //Delete Project and all tasks associated with, set the Snackbar
                         if (view.getId() == oneTextViewLong.getId()) {
                             view.performHapticFeedback(1);
                             view.setElevation(5f);
@@ -241,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    //Avoid triggering OnClick when textView Project is empty
     private void deactivateClickIfEmpty() {
         for (TextView textViewClick: textViewArray) {
             if (!(textViewClick.length() > 0)) {
