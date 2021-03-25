@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical"
+    android:theme="@style/DialogThemeDarkOrange"
     >
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
@@ -18,13 +19,27 @@
             app:layout_constraintTop_toTopOf="parent"
             android:hint="Name"
             android:textColorHint="@color/colorOrange"
-            android:layout_marginTop="10dp">
+            app:hintTextColor="@color/colorOrange"
+            android:layout_marginTop="10dp"
+            app:endIconMode="clear_text"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
+            app:errorEnabled="true"
+            app:errorTextColor="@color/colorRed"
+            app:errorIconTint="@color/colorRed"
+            app:helperTextEnabled="true"
+            app:helperText="10 characters maximum"
+            app:boxStrokeColor="@color/colorOrange"
+            app:boxStrokeErrorColor="@color/colorRed">
 
 
             <com.google.android.material.textfield.TextInputEditText
+                android:backgroundTint="@color/colorPrimary"
                 android:id="@+id/textInput"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:textColor="@color/colorOrange"
                 android:textColorHint="@color/colorOrange"
                 />

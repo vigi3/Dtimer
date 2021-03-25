@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="fontFamily">@font/roboto_bold</item>
 <!--        <item name="android:alertDialogTheme">@style/DialogThemeDarkOrange</item>-->
         <item name="materialAlertDialogTheme">@style/DialogThemeDarkOrange</item>
         <item name="android:background">@color/colorPrimaryDark</item>
@@ -29,9 +29,11 @@
 
 <!--    DialogTheme-->
     <style name="DialogThemeDarkOrange" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="android:buttonBarButtonStyle">@style/ButtonAlertDialog</item>
-        <item name="android:buttonBarPositiveButtonStyle">@color/colorOrange</item>
-        <item name="android:buttonBarNegativeButtonStyle">@style/ButtonAlertDialog</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorOrange</item>
+        <item name="buttonBarButtonStyle">@style/ButtonAlertDialog</item>
+        <item name="buttonBarPositiveButtonStyle">@style/ButtonAlertDialog</item>
+        <item name="buttonBarNegativeButtonStyle">@style/ButtonAlertDialog</item>
 
 
 
@@ -39,10 +41,10 @@
     </style>
 
     <style name="ButtonAlertDialog" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
         <item name="android:colorControlActivated">@color/colorOrange</item>
         <item name="android:colorControlNormal">@color/colorOrange</item>
         <item name="android:colorControlHighlight">@color/colorOrange</item>
-        <item name="materialThemeOverlay">@color/colorOrange</item>
         <item name="android:textColor">@color/colorOrange</item>
 
     </style>
@@ -56,7 +58,7 @@
         <item name="materialThemeOverlay">@style/themeOverlaySnackbar</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="backgroundTint">@color/colorPrimary</item>
-        <item name="android:layout_margin">5dp</item>
+<!--        <item name="android:layout_margin">5dp</item>-->
     </style>
 
     <style name="snackbar_button" parent="@style/Widget.MaterialComponents.Button">
