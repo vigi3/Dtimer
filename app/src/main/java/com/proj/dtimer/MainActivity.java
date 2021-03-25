@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int index = 0;
     private int indexArray;
     private int indexArrayLong;
+    private int projectListSize = 0;
     int[] idProjectView = {0, 0, 0, 0, 0, 0, 0, 0};
     String[] nameProjectView = {"","","","","","","",""};
     TextView[] textViewArray;
@@ -89,13 +90,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    //OnClick method used for creation of a project
+    //OnClick method used for creation of a project, only possible if at least one TextView is available
     @Override
     public void onClick(View view){
-        switch (view.getId()){
-            case R.id.addProject:
+        if (view.getId() == R.id.addProject) {
+            if (!(projectListSize >= 8)){
                 textEnterDialogFragment();
-                break;
+            }
         }
     }
 
@@ -139,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void readProjects() {
         dbInst = new DataBaseManager(this);
+        projectListSize = 0;
         final List<Projects> projectsList = dbInst.showAllProjects();
         if (projectsList.isEmpty()) {
             Log.e("ReadingProject", "Project List is null/empty");
@@ -153,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e("TAG", "readProjects: " + index);
 
                 if (index == projectsList.size()) {
+                    projectListSize = projectsList.size();
                     dbInst.close();
                     index = 0;
                     break;
@@ -224,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     deactivateClickIfEmpty();
                                     Log.d("TAG", "indexArrayLongDeleted: " + indexArrayLong);
                                     indexArrayLong = 0;
+                                    projectListSize --;
                                 }
                             }).setActionTextColor(getColor(R.color.colorRed)).show();
                             break;
