@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.query.In;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import java.util.List;
@@ -149,7 +150,7 @@ public class DataBaseManager extends OrmLiteSqliteOpenHelper {
         try {
             Dao<Tasks,Integer> maDao = getDao(Tasks.class);
             String textErr = "Deleted ID " + tasks.getIdTask();
-            Log.e ("DATABASE", textErr);
+            Log.d("DATABASE", textErr);
             int deletedTask = maDao.delete(tasks);
             return deletedTask;
         } catch (Exception e) {
@@ -168,6 +169,19 @@ public class DataBaseManager extends OrmLiteSqliteOpenHelper {
             return deletedProject;
         } catch (Exception e) {
             Log.e ("DATABASE", "Error deleting ID Project");
+            return 0;
+        }
+    }
+
+    public int delProjectById (int id) {
+        try {
+            Dao<Projects, Integer> maDao = getDao(Projects.class);
+            Projects project = maDao.queryForId(id);
+            int deletedProject = maDao.delete(project);
+            return  deletedProject;
+        }
+        catch (Exception e) {
+            Log.e ("DATABASE", "Error deleting ProjectById");
             return 0;
         }
     }

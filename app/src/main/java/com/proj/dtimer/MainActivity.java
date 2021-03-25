@@ -35,6 +35,7 @@ import android.view.animation.PathInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -56,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Projects projects;
     private int textViewCount;
     private int index = 0;
-    private int indexArray = 0;
+    private int indexArray;
+    private int indexArrayLong;
     int[] idProjectView = {0, 0, 0, 0, 0, 0, 0, 0};
     String[] nameProjectView = {"","","","","","","",""};
     TextView[] textViewArray;
@@ -73,8 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         addProject = findViewById(R.id.addProject);
         addProject.setOnClickListener(this);
-//        goTimer = findViewById(R.id.goButton);
-//        goTimer.setOnClickListener(this);
 
         textViewArray = new TextView[8];
         textViewCount = textViewArray.length;
@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         SetOnClickListenerOnProject(textViewArray);
         readProjects();
+        deactivateClickIfEmpty();
 
     }
 
@@ -118,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             textInputLayout.setHint("Name missing !");
             Log.e("Dialog", "Project name is null/empty");
 
-//            throw new IllegalArgumentException();
         }
         else {
             projects = new Projects();
@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dbInst.close();
             dialog.dismiss();
             readProjects();
+            deactivateClickIfEmpty();
         }
     }
 
@@ -146,8 +147,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else {
             for (Projects myProjectList: projectsList) {
-
-
                 textViewArray[index].setText(myProjectList.getName());
                 idProjectView[index] = myProjectList.getIdProject();
                 nameProjectView[index] = myProjectList.getName();
@@ -155,19 +154,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e("TAG", "readProjects: " + myProjectList.getName());
                 Log.e("TAG", "readProjects: " + index);
 
-                if (index == textViewCount) {
+                if (index == projectsList.size()) {
                     dbInst.close();
                     index = 0;
                     break;
                 }
             }
-
         }
     }
 
     //OnClickListener For each project
     private void SetOnClickListenerOnProject(TextView[] viewProject){
         indexArray = 0;
+        indexArrayLong = 0;
 
         for (final TextView textViewProjectListener: viewProject) {
             textViewProjectListener.setOnClickListener(new View.OnClickListener() {
@@ -192,6 +191,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             });
+            textViewProjectListener.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(final View view) {
+                    for (final TextView oneTextViewLong: textViewArray ){
+                        Log.d("TAG", "indexArrayLong: " + indexArrayLong);
+
+                        //Delete Project and his Tasks, set the Snackbar
+                        if (view.getId() == oneTextViewLong.getId()) {
+                            view.performHapticFeedback(1);
+                            view.setElevation(5f);
+                            view.setAlpha(0.5f);
+                            Snackbar.make(view, "Delete ?", Snackbar.LENGTH_LONG).addCallback(new Snackbar.Callback(){
+                                @Override
+                                public void onDismissed(Snackbar transientBottomBar, int event) {
+                                    super.onDismissed(transientBottomBar, event);
+                                    if (event != DISMISS_EVENT_ACTION) {
+                                        view.setAlpha(1f);
+                                    }
+                                }
+                            }).setAction("DELETE", new View.OnClickListener(){
+                                @Override
+                                public void onClick(View view) {
+                                    dbInst = new DataBaseManager(getApplicationContext());
+                                    List<Tasks> taskListToDelete = dbInst.showAllTasksFromOneProject(idProjectView[indexArrayLong]);
+                                    if (!taskListToDelete.isEmpty()) {
+                                        for (Tasks task: taskListToDelete) {
+                                            dbInst.delTaskById(task);
+                                        }
+                                    }
+                                    dbInst.delProjectById(idProjectView[indexArrayLong]);
+                                    dbInst.close();
+                                    oneTextViewLong.setText(null);
+                                    oneTextViewLong.setAlpha(1f);
+                                    deactivateClickIfEmpty();
+                                    Log.d("TAG", "indexArrayLongDeleted: " + indexArrayLong);
+                                    indexArrayLong = 0;
+                                }
+                            }).setActionTextColor(getColor(R.color.colorRed)).show();
+                            break;
+                        }
+                        else {
+                            indexArrayLong++;
+                        }
+                    }
+                    return true;
+                }
+            });
+        }
+    }
+
+    private void deactivateClickIfEmpty() {
+        for (TextView textViewClick: textViewArray) {
+            if (!(textViewClick.length() > 0)) {
+                Log.d("ifEmpty", "textViewClick < 0: " + textViewClick.getText().toString().isEmpty());
+                textViewClick.setEnabled(false);
+            }
+            else {
+                Log.d("ifEmpty", "textViewClick > 0: " + textViewClick.getText().toString().isEmpty());
+                textViewClick.setEnabled(true);
+            }
         }
     }
 }
