@@ -197,7 +197,7 @@ public class OneTaskView extends AppCompatActivity implements View.OnClickListen
                 priorityNormal.setBackgroundTintList(null);
                 break;
             case 2: // Important - Yellow
-                priorityImportant.getBackground().setTint(getColor(R.color.colorYellow));
+                priorityImportant.getBackground().setTint(getColor(R.color.colorYellowSpice));
                 priorityNormal.setBackgroundTintList(null);
                 priorityMain.setBackgroundTintList(null);
                 break;

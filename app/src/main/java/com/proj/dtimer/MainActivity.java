@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             view.performHapticFeedback(1);
                             view.setElevation(5f);
                             view.setAlpha(0.5f);
-                            Snackbar.make(view, "Delete ?", Snackbar.LENGTH_LONG).addCallback(new Snackbar.Callback(){
+                            Snackbar snack = Snackbar.make(view, "Delete ?", Snackbar.LENGTH_LONG).addCallback(new Snackbar.Callback(){
                                 @Override
                                 public void onDismissed(Snackbar transientBottomBar, int event) {
                                     super.onDismissed(transientBottomBar, event);
@@ -229,7 +229,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     indexArrayLong = 0;
                                     projectListSize --;
                                 }
-                            }).setActionTextColor(getColor(R.color.colorRed)).show();
+                            }).setActionTextColor(getColor(R.color.colorRed));
+                            snack.show();
                             break;
                         }
                         else {

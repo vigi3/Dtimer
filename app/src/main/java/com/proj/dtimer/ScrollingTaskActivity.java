@@ -170,8 +170,8 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
                         final Object tasksList = adapterView.getItemAtPosition(position);
                         view.setElevation(5f);
                         view.setAlpha(0.5f);
-                        Log.e("ScrollingTask", "readTaskAttributeOnLongclick: \n" + tasksList.toString());
-                        Snackbar.make(view, "Delete ?", Snackbar.LENGTH_LONG)
+                        Log.d("ScrollingTask", "readTaskAttributeOnLongclick: \n" + tasksList.toString());
+                        Snackbar snack = Snackbar.make(view, "Delete ?", Snackbar.LENGTH_LONG)
                             .addCallback(new Snackbar.Callback() {
                                 @Override
                                 public void onDismissed(Snackbar transientBottomBar, int event) {
@@ -190,8 +190,8 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
                                     Log.e("ScrollingTask", "DONE");
                                     readTasks(projectIdView);
                                 }
-                            }).setActionTextColor(getColor(R.color.colorRed)).show();
-
+                            }).setActionTextColor(getColor(R.color.colorRed));
+                        snack.show();
                     }
                 });
 

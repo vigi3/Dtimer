@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
 public class TextEnterDialogFragment extends DialogFragment {
@@ -44,7 +47,7 @@ public class TextEnterDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogThemeDarkOrange);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity(), R.style.DialogThemeDarkOrange);
         // Get the layout inflater
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         // Pass null as the parent view because its going in the dialog layout
@@ -63,9 +66,10 @@ public class TextEnterDialogFragment extends DialogFragment {
                         listener.onDialogNegativeClick(TextEnterDialogFragment.this);
 
                     }
-                });
+                })
+        .setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.dialog_box));
         // Create the AlertDialog object and return it
-        return builder.create();
+        return builder.show();
     }
 
 }
