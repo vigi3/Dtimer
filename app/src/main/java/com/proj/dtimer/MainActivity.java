@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onDialogPositiveClick(DialogFragment dialog) {
         // Positive Event is return by interface TextEnterDialogListener so logic can be done here
         projectName = dialog.getDialog().findViewById(R.id.textInput);
-        if (TextUtils.isEmpty(projectName.getEditableText()) || projectName.getError() == null) {
+        if (TextUtils.isEmpty(projectName.getEditableText()) || projectName.getEditableText().length() > 10) {
             // if dialogBox empty, restart dialogBox
             textEnterDialogFragment();
             TextInputLayout textInputLayout = dialog.getDialog().findViewById(R.id.textInputLayout);

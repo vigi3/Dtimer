@@ -123,7 +123,7 @@ public class ScrollingTaskActivity extends AppCompatActivity implements TextEnte
     public void onDialogPositiveClick(DialogFragment dialog) {
         // Positive Event is return by interface TextEnterDialogListener so logic can be done here
         taskName = dialog.getDialog().findViewById(R.id.textInput);
-        if (TextUtils.isEmpty(taskName.getEditableText()) || taskName.getError() == null) {
+        if (TextUtils.isEmpty(taskName.getEditableText()) || taskName.getEditableText().length() > 10) {
             // if dialogBox empty, restart dialogBox
             textEnterDialogTaskFragment();
             TextInputLayout textInputLayout = dialog.getDialog().findViewById(R.id.textInputLayout);
