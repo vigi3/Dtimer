@@ -8,7 +8,9 @@ import androidx.core.content.ContextCompat;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.transition.AutoTransition;
 import android.transition.Explode;
@@ -28,6 +30,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
+
 
 public class OneTaskView extends AppCompatActivity implements View.OnClickListener {
 
@@ -44,6 +48,7 @@ public class OneTaskView extends AppCompatActivity implements View.OnClickListen
     private Button priorityNormal;
 
 
+    @SuppressLint("WrongViewCast")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +57,6 @@ public class OneTaskView extends AppCompatActivity implements View.OnClickListen
         //Transition
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         ChangeBounds changeBounds = new ChangeBounds();
-//        changeBounds.setDuration(300);
         changeBounds.setResizeClip(true);
         changeBounds.addTarget("tasksList");
         getWindow().setSharedElementEnterTransition(changeBounds);
@@ -185,22 +189,25 @@ public class OneTaskView extends AppCompatActivity implements View.OnClickListen
 
         switch (intPriority){
             case 0: //Normal - White
-                priorityNormal.getBackground().setTint(getColor(R.color. colorWhite));
-                Log.d("OneTaskView", "setBackgroundPriority: initBackground: " + initBackground);
-                priorityImportant.setBackgroundTintList(null);
-                priorityMain.setBackgroundTintList(null);
+                priorityNormal.setBackgroundTintMode(PorterDuff.Mode.SCREEN);
+                priorityNormal.getBackground().setTint(getColor(R.color.colorWhite));
+                Log.d("OneTaskView", "setBackgroundPriority: normal " + initBackground);
+                priorityImportant.getBackground().setTint(getColor(R.color.colorPrimary));
+                priorityMain.getBackground().setTint(getColor(R.color.colorPrimary));
                 break;
             case 1: // Urgent - Red
                 priorityMain.getBackground().setTint(getColor(R.color.colorRed));
-                Log.d("OneTaskView", "setBackgroundPriority: initBackground: " + initBackground);
-                priorityImportant.setBackgroundTintList(null);
-                priorityNormal.setBackgroundTintList(null);
+                Log.d("OneTaskView", "setBackgroundPriority: urgent " + initBackground);
+                priorityImportant.getBackground().setTint(getColor(R.color.colorPrimary));
+                priorityNormal.getBackground().setTint(getColor(R.color.colorPrimary));
                 break;
             case 2: // Important - Yellow
                 priorityImportant.getBackground().setTint(getColor(R.color.colorYellowSpice));
-                priorityNormal.setBackgroundTintList(null);
-                priorityMain.setBackgroundTintList(null);
+                Log.d("OneTaskView", "setBackgroundPriority: important " + initBackground);
+                priorityNormal.getBackground().setTint(getColor(R.color.colorPrimary));
+                priorityMain.getBackground().setTint(getColor(R.color.colorPrimary));
                 break;
         }
     }
+
 }
